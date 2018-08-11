@@ -45,11 +45,8 @@ public class OrganizationServiceImpl implements  OrganizationService  {
 
     @Override
     @Transactional(readOnly = false)
-    public List<OrganizationView> getOrganization(Long id){
-        List<Organization> Filter= dao.loadByID(id);
-        return Filter.stream()
-                .map(mapOrganizationFull())
-                .collect(Collectors.toList());
+    public OrganizationView getOrganization(Long id){
+        return  new OrganizationView(dao.loadByID(id));
     }
 
     @Override
@@ -64,15 +61,17 @@ public class OrganizationServiceImpl implements  OrganizationService  {
     }
     @Override
     @Transactional
-    public void save (Organization organization) throws ExceptionValid{
-        saveValidation(organization);
+    public void save (OrganizationView organizationView) throws ExceptionValid{
+        saveValidation(organizationView);
+        Organization organization = new Organization(organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
         dao.save(organization);
     }
 
     @Override
     @Transactional
-    public void update (Organization organization) throws ExceptionValid{
-        updateValidation(organization);
+    public void update (OrganizationView organizationView) throws ExceptionValid{
+        updateValidation(organizationView);
+        Organization organization = new Organization( organizationView.id, organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
         dao.update(organization);
     }
 
@@ -83,43 +82,43 @@ public class OrganizationServiceImpl implements  OrganizationService  {
         }
         checAndTrowException(exception);
     }
-    private void saveValidation (Organization organization) throws ExceptionValid {
+    private void saveValidation (OrganizationView organization) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (organization.getName() == ""){
+        if (organization.name.isEmpty()){
             exception.addError("name is empty");
         }
-        if(organization.getFull_name() == ""){
+        if(organization.full_name.isEmpty()){
             exception.addError("full_name is empty");
         }
-        if (organization.getInn() == ""){
+        if (organization.inn.isEmpty()){
             exception.addError("inn is empty");
         }
-        if (organization.getKpp() == ""){
+        if (organization.kpp.isEmpty()){
             exception.addError("kpp is empty");
         }
-        if (organization.getAddress() == ""){
+        if (organization.address.isEmpty()){
             exception.addError("address is empty");
         }
         checAndTrowException(exception);
     }
-    private void updateValidation(Organization organization) throws ExceptionValid {
+    private void updateValidation(OrganizationView organization) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (organization.getId() == null){
+        if (organization.id == null){
             exception.addError("id is empty");
         }
-        if (organization.getName() == ""){
+        if (organization.name.isEmpty()){
             exception.addError("name is empty");
         }
-        if(organization.getFull_name() == ""){
+        if(organization.full_name.isEmpty()){
             exception.addError("full_name is empty");
         }
-        if (organization.getInn() == ""){
+        if (organization.inn.isEmpty()){
             exception.addError("inn is empty");
         }
-        if (organization.getAddress() == ""){
+        if (organization.kpp.isEmpty()){
             exception.addError("kpp is empty");
         }
-        if (organization.getAddress() == ""){
+        if (organization.address.isEmpty()){
             exception.addError("address is empty");
         }
         checAndTrowException(exception);

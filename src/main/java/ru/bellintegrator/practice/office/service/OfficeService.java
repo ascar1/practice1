@@ -27,10 +27,10 @@ public interface OfficeService {
     /*
         Записать организацию
      */
-    void save (Office office) throws ExceptionValid;
+    void save (OfficeView officeView) throws ExceptionValid;
     /*
         Обновить организвцию
      */
-    void update (Office office) throws ExceptionValid;
+    void update (OfficeView officeView) throws ExceptionValid;
 
 }

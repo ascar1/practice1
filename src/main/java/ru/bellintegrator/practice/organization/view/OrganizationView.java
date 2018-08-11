@@ -1,10 +1,26 @@
 package ru.bellintegrator.practice.organization.view;
 
 import io.swagger.annotations.ApiModelProperty;
+import ru.bellintegrator.practice.organization.model.Organization;
 
 import javax.validation.constraints.NotNull;
 
 public class OrganizationView {
+    public OrganizationView(){
+
+    }
+
+    public OrganizationView (Organization organization){
+        this.id = organization.getId();
+        this.name = organization.getName();
+        this.full_name = organization.getFull_name();
+        this.inn = organization.getFull_name();
+        this.kpp = organization.getKpp();
+        this.address = organization.getAddress();
+        this.phone = organization.getPhone();
+        this.is_active = organization.isIs_active();
+    }
+
 
     @ApiModelProperty(hidden = true)
     public Long id;

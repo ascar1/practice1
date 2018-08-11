@@ -25,8 +25,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/",produces = APPLICATION_JSON_VALUE)
 public class OfficeController {
     private final OfficeService officeService;
-
-
     private static Logger log = LoggerFactory.getLogger(OfficeController.class.getName());
     @Autowired
     public OfficeController(OfficeService officeService){
@@ -57,28 +55,18 @@ public class OfficeController {
     @ApiOperation(value = "saveoffice",nickname = "saveoffice",httpMethod = "POST")
     @PostMapping("/office/save")
     public SuccessResponse saveOrganization (@RequestBody OfficeView officeView, Errors result)throws ExceptionValid{
-        Office office = new Office (officeView.org_id, officeView.name,officeView.address, officeView.phone,officeView.is_active);
-        officeService.save(office);
+
+        officeService.save(officeView);
         return new SuccessResponse("success");
     }
 
     @ApiOperation(value = "saveOrganization",nickname = "saveOrganization",httpMethod = "POST")
     @PostMapping("/office/update")
     public SuccessResponse updateOrganization (@RequestBody OfficeView officeView, Errors result)throws ExceptionValid{
-        Office office = new Office( officeView.id, officeView.org_id,officeView.name,officeView.address,officeView.phone,officeView.is_active);
-        officeService.update(office);
+        officeService.update(officeView);
         return new SuccessResponse("success");
     }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ExceptionValid.class)
-    public List<ErrorResponse> handleExeptionValid (ExceptionValid ex){
-        return ex.errors;
-    }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public List<ErrorResponse> handleExeptionValid (NumberFormatException ex){
-        ExceptionValid exceptionValid = new ExceptionValid();
-        exceptionValid.addError("Ошибка валидации поля ID");
-        return exceptionValid.errors;
-    }
+
+
+
 }

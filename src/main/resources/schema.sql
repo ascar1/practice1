@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Office (
     is_active   boolean
 );
 
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE IF NOT EXISTS user (
     id                  integer PRIMARY KEY AUTO_INCREMENT,
     version             INTEGER NOT NULL,
     office_id 			INTEGER NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS User (
     middle_name         varchar (50),
     position            varchar (30) NOT NULL,
     phone               varchar (15),
-    doc_Code            integer,
+    doc_code            integer,
     doc_name            varchar(50),
     doc_number          varchar(15),
     doc_date            date ,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS COUNTRY (
 
 ALTER TABLE OFFICE ADD FOREIGN KEY (org_id) REFERENCES Organization(id);
 ALTER TABLE USER ADD FOREIGN KEY (OFFICE_ID) REFERENCES OFFICE (ID);
-ALTER TABLE USER ADD FOREIGN KEY (DOC_CODE) REFERENCES DOC(code);
+ALTER TABLE User ADD FOREIGN KEY (doc_code) REFERENCES doc(code);
 ALTER TABLE USER ADD FOREIGN KEY (CITIZENSHIP_CODE) REFERENCES COUNTRY(ID);
 
 

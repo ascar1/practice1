@@ -19,7 +19,7 @@ public interface OrganizationService {
     /*
             выдать организациб по ID
      */
-    List<OrganizationView> getOrganization(Long id);
+    OrganizationView getOrganization(Long id);
     /*
             выдать список по фильтру
      */
@@ -27,11 +27,11 @@ public interface OrganizationService {
     /*
         Записать организацию
      */
-    void save (Organization organizationView) throws ExceptionValid ;
+    void save (OrganizationView organizationView) throws ExceptionValid ;
     /*
         Обновить организвцию
      */
-    void update (Organization organization) throws ExceptionValid ;
+    void update (OrganizationView organizationView) throws ExceptionValid ;
 
 
 }

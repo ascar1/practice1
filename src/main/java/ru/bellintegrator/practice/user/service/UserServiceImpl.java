@@ -46,14 +46,28 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     @Transactional(readOnly = false)
-    public void save(User user) throws ExceptionValid {
-        saveValidation(user);
+    public void save(UserView userView) throws ExceptionValid {
+        saveValidation(userView);
+        User user = new User (userView.office_id, userView.first_name,userView.second_name,userView.middle_name,userView.position,userView.phone,userView.doc_Code,userView.doc_name,userView.doc_number,userView.doc_date,userView.citizenship_code,userView.is_identified);        //userService.save(user);
         dao.save(user);
     }
     @Override
     @Transactional(readOnly = false)
-    public void update (User user) throws ExceptionValid{
-        updateValidation(user);
+    public void update (UserView userView) throws ExceptionValid{
+        updateValidation(userView);
+        User user = new User (userView.id,
+                userView.office_id,
+                userView.first_name,
+                userView.second_name,
+                userView.middle_name,
+                userView.position,
+                userView.phone,
+                userView.doc_Code,
+                userView.doc_name,
+                userView.doc_number,
+                userView.doc_date,
+                userView.citizenship_code,
+                userView.is_identified);
         dao.update(user);
     }
 
@@ -65,29 +79,29 @@ public class UserServiceImpl implements UserService {
         checAndTrowException(exception);
     }
 
-    private void saveValidation  (User user) throws ExceptionValid {
+    private void saveValidation  (UserView user) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (user.getOffice_id() == null){
+        if (user.id == null){
             exception.addError("Office_id if empty");
         }
-        if (user.getFirst_name() == "") {
+        if (user.first_name.isEmpty()) {
             exception.addError("First_name if empty");
         }
-        if (user.getPosition() == "") {
+        if (user.position.isEmpty()) {
             exception.addError("Position if empty");
         }
         checAndTrowException(exception);
     }
 
-    private void updateValidation  (User user) throws ExceptionValid {
+    private void updateValidation  (UserView user) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (user.getId() == null){
+        if (user.id == null){
             exception.addError("ID if empty");
         }
-        if (user.getFirst_name() == "") {
+        if (user.first_name.isEmpty() ) {
             exception.addError("First_name if empty");
         }
-        if (user.getPosition() == "") {
+        if (user.position.isEmpty()) {
             exception.addError("Position if empty");
         }
         checAndTrowException(exception);

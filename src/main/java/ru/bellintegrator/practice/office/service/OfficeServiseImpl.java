@@ -53,15 +53,17 @@ public class OfficeServiseImpl implements OfficeService{
 
     @Override
     @Transactional
-    public void save (Office office) throws ExceptionValid {
-        saveValidation(office);
+    public void save (OfficeView officeView) throws ExceptionValid {
+        saveValidation(officeView);
+        Office office = new Office (officeView.org_id, officeView.name,officeView.address, officeView.phone,officeView.is_active);
         dao.save(office);
     }
 
     @Override
     @Transactional
-    public void update (Office office)throws ExceptionValid{
-        updateValidation(office);
+    public void update (OfficeView officeView)throws ExceptionValid{
+        updateValidation(officeView);
+        Office office = new Office( officeView.id, officeView.org_id,officeView.name,officeView.address,officeView.phone,officeView.is_active);
         dao.update(office);
     }
 
@@ -73,38 +75,35 @@ public class OfficeServiseImpl implements OfficeService{
         checAndTrowException(exception);
     }
 
-    private void saveValidation (Office office) throws ExceptionValid{
+    private void saveValidation (OfficeView office) throws ExceptionValid{
         ExceptionValid exception = new ExceptionValid();
-        if (office.getOrg_id() == null) {
+        if (office.id == null) {
             exception.addError( "org_id is empty");
         }
-        if (office.getName() == "") {
+        if (office.name.isEmpty()) {
             exception.addError( "name is empty");
         }
-        if (office.getAddress() == "") {
+        if (office.address.isEmpty()) {
             exception.addError( "address id empty");
         }
-        if (office.isIs_active() == null) {
+        if (office.is_active == null) {
             exception.addError("is_active is epmty");
         }
         checAndTrowException(exception);
     }
 
-    private void updateValidation (Office office) throws ExceptionValid{
+    private void updateValidation (OfficeView office) throws ExceptionValid{
         ExceptionValid exception = new ExceptionValid();
-        if (office.getId() == null) {
+        if (office.id == null) {
             exception.addError( "org_id is empty");
         }
-        if (office.getOrg_id() == null) {
-            exception.addError( "org_id is empty");
-        }
-        if (office.getName() == "") {
+        if (office.name.isEmpty()) {
             exception.addError( "name is empty");
         }
-        if (office.getAddress() == "") {
+        if (office.address.isEmpty()) {
             exception.addError( "address id empty");
         }
-        if (office.isIs_active() == null) {
+        if (office.is_active == null) {
             exception.addError("is_active is epmty");
         }
         checAndTrowException(exception);

@@ -12,7 +12,7 @@ public interface OrganizationDao {
 
     List<Organization> all();
 
-    List<Organization>  loadByID (Long id);
+    Organization  loadByID (Long id);
 
     Organization loadByName (String name);
 

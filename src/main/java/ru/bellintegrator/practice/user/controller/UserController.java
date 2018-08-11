@@ -55,42 +55,14 @@ public class UserController {
     @ApiOperation(value = "UpdateUser", nickname = "UpdateUser",httpMethod = "POST")
     @PostMapping("/user/update")
     public SuccessResponse updateUser (@RequestBody UserView userView, Errors result) throws ExceptionValid{
-        User user = new User (userView.id,
-                userView.office_id,
-                userView.first_name,
-                userView.second_name,
-                userView.middle_name,
-                userView.position,
-                userView.phone,
-                userView.doc_Code,
-                userView.doc_name,
-                userView.doc_number,
-                userView.doc_date,
-                userView.citizenship_code,
-                userView.is_identified);
-
-        userService.update(user);
+        userService.update(userView);
         return new SuccessResponse("success");
     }
 
     @ApiOperation(value = "UpdateUser", nickname = "UpdateUser",httpMethod = "POST")
     @PostMapping("/user/save")
     public SuccessResponse saveUser (@RequestBody UserView userView, Errors result) throws ExceptionValid {
-
-        User user = new User (userView.office_id, userView.first_name,userView.second_name,userView.middle_name,userView.position,userView.phone,userView.doc_Code,userView.doc_name,userView.doc_number,userView.doc_date,userView.citizenship_code,userView.is_identified);        //userService.save(user);
-        userService.save(user);
+        userService.save(userView);
         return new SuccessResponse("success");
-    }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ExceptionValid.class)
-    public List<ErrorResponse> handleExeptionValid (ExceptionValid ex){
-        return ex.errors;
-    }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public List<ErrorResponse> handleExeptionValid (NumberFormatException ex){
-        ExceptionValid exceptionValid = new ExceptionValid();
-        exceptionValid.addError("Ошибка валидации поля ID");
-        return exceptionValid.errors;
     }
 }

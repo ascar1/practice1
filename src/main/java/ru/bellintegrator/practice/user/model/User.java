@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.user.model;
 
 import io.swagger.models.auth.In;
+import ru.bellintegrator.practice.docs.model.Docs;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,8 +27,8 @@ public class User {
     private String position;
     @Column (name = "phone", length = 15,nullable = false)
     private String phone;
-    @Column(name = "doc_Code" , nullable = false)
-    private Integer doc_Code;
+    @Column(name = "doc_code" , nullable = false,insertable = false,updatable = false)
+    private Integer doc_code;
     @Column (name = "doc_name", length = 50,nullable = false)
     private String doc_name;
     @Column (name = "doc_number", length = 15,nullable = false)
@@ -39,10 +40,11 @@ public class User {
     private String citizenship_code;
     @Column(name = "is_identified" , nullable = false)
     private Boolean is_identified;
+
 /*
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "DOC_CODE", referencedColumnName = "code")
-    private Docs Doc;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doc_code")
+    private Docs getDocs ;
 */
     public User(){
 
@@ -56,7 +58,7 @@ public class User {
         this.middle_name = middle_name;
         this.position = position;
         this.phone = phone;
-        this.doc_Code = doc_Code;
+        this.doc_code = doc_Code;
         this.doc_name = doc_name;
         this.doc_number = doc_number;
         this.doc_date = doc_date;
@@ -70,7 +72,7 @@ public class User {
         this.middle_name = middle_name;
         this.position = position;
         this.phone = phone;
-        this.doc_Code = doc_Code;
+        this.doc_code = doc_Code;
         this.doc_name = doc_name;
         this.doc_number = doc_number;
         this.doc_date = doc_date;
@@ -95,7 +97,7 @@ public class User {
     }
 
     public Integer getDoc_Code() {
-        return doc_Code;
+        return doc_code;
     }
 
     public Boolean isIs_identified() {

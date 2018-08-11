@@ -1,9 +1,13 @@
 package ru.bellintegrator.practice.docs.model;
 
+import ru.bellintegrator.practice.user.model.User;
+
 import javax.persistence.*;
 
-@Entity(name = "doc")
+@Entity
+@Table(name="doc")
 public class Docs {
+    public Docs (){}
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -15,12 +19,9 @@ public class Docs {
     @Column(name = "code",  nullable = false)
     private Integer code;
 
-/*    private User user;
-
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
-    public User uaer (){
-        return user;
-    };
+    /*private User user;
+    @OneToOne (mappedBy = "getDocs")
+    private User getUser ;
 */
     public String getName(){return name;}
     public Long getId (){return id;}

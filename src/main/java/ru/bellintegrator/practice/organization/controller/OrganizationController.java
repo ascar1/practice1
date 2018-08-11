@@ -37,7 +37,7 @@ public class OrganizationController {
     @ApiOperation(value = "getOrganization",nickname = "getOrganization",httpMethod = "GET")
     @RequestMapping(value = "/organization", method = RequestMethod.GET)
     @ResponseBody
-    public List<OrganizationView> metod (@RequestParam("id") String id ){
+    public OrganizationView metod (@RequestParam("id") String id ){
             Long _id = new Long(id);
             return organizationService.getOrganization(_id);
     }
@@ -54,32 +54,19 @@ public class OrganizationController {
     public List<OrganizationListView> organizations(@Valid @RequestBody OrganizationView organizationView, Errors errors) throws ExceptionValid {
         return organizationService.getFilterOrg(organizationView.name,organizationView.inn,organizationView.is_active);
     }
+
     @ApiOperation(value = "saveOrganization",nickname = "saveOrganization",httpMethod = "POST")
     @PostMapping("/organization/save")
-    public SuccessResponse saveOrganization (@RequestBody OrganizationView organizationView, Errors errors) throws ExceptionValid{
-        Organization organization = new Organization(organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
-        organizationService.save(organization);
+    public SuccessResponse saveOrganization (@RequestBody OrganizationView organizationView) throws ExceptionValid{
+
+        organizationService.save(organizationView);
         return new SuccessResponse("success");
     }
 
     @ApiOperation(value = "saveOrganization",nickname = "saveOrganization",httpMethod = "POST")
     @PostMapping("/organization/update")
     public SuccessResponse updateOrganization (@RequestBody OrganizationView organizationView, Errors errors) throws ExceptionValid{
-
-        Organization organization = new Organization( organizationView.id, organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
-        organizationService.update(organization);
+        organizationService.update(organizationView);
         return new SuccessResponse("success");
-    }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ExceptionValid.class)
-    public List<ErrorResponse> handleExeptionValid (ExceptionValid ex){
-        return ex.errors;
-    }
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public List<ErrorResponse> handleExeptionValid (NumberFormatException ex){
-        ExceptionValid exceptionValid = new ExceptionValid();
-        exceptionValid.addError("Ошибка валидации поля ID");
-        return exceptionValid.errors;
     }
 }
