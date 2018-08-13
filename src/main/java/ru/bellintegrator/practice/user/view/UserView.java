@@ -17,6 +17,6 @@ public class UserView {
     public String doc_name;
     public String doc_number;
     public Date doc_date;
-    public String citizenship_code;
+    public Integer citizenship_code;
     public Boolean is_identified;
 }

@@ -63,8 +63,7 @@ public class OfficeServiseImpl implements OfficeService{
     @Transactional
     public void update (OfficeView officeView)throws ExceptionValid{
         updateValidation(officeView);
-        Office office = new Office( officeView.id, officeView.org_id,officeView.name,officeView.address,officeView.phone,officeView.is_active);
-        dao.update(office);
+        dao.update(officeView);
     }
 
     private void validation (String name ) throws ExceptionValid {

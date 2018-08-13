@@ -1,5 +1,7 @@
 package ru.bellintegrator.practice.organization.model;
 
+import ru.bellintegrator.practice.organization.view.OrganizationView;
+
 import javax.persistence.*;
 
 /*
@@ -59,6 +61,10 @@ public class Organization {
         return id;
     }
 
+    public void setName (String val){
+        this.name = val;
+    }
+
     public String getName()
     {
         return name;
@@ -86,5 +92,32 @@ public class Organization {
 
     public Boolean isIs_active() {
         return is_active;
+    }
+
+    public void SetUpdVal (OrganizationView organizationView){
+        if (!organizationView.id.equals(id)){
+            this.id = organizationView.id;
+        }
+        if (!organizationView.name.equals(name)){
+            this.name = organizationView.name;
+        }
+        if(!organizationView.full_name.equals(full_name)){
+            this.full_name = organizationView.full_name;
+        }
+        if (!organizationView.inn.equals(inn)){
+            this.inn = organizationView.inn;
+        }
+        if (!organizationView.kpp.equals(kpp)){
+            this.kpp = organizationView.kpp;
+        }
+        if(!organizationView.address.equals(address)){
+            this.address = organizationView.address;
+        }
+        if (!organizationView.phone.equals(phone)){
+            this.phone = organizationView.phone;
+        }
+        if (!organizationView.is_active.equals(is_active)){
+            this.is_active = organizationView.is_active;
+        }
     }
 }

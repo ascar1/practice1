@@ -24,37 +24,40 @@ CREATE TABLE IF NOT EXISTS user (
     id                  integer PRIMARY KEY AUTO_INCREMENT,
     version             INTEGER NOT NULL,
     office_id 			INTEGER NOT NULL,
+    office_id1 			INTEGER ,
     first_name          varchar (50) NOT NULL,
     second_name         varchar (50),
     middle_name         varchar (50),
     position            varchar (30) NOT NULL,
     phone               varchar (15),
-    doc_code            integer,
+    doc_code            integer not null,
     doc_name            varchar(50),
     doc_number          varchar(15),
     doc_date            date ,
-    citizenship_code    varchar (10),
+    citizenship_code    integer not null,
     is_identified       boolean
 );
 
 CREATE TABLE IF NOT EXISTS doc (
-    id         integer PRIMARY KEY AUTO_INCREMENT,
     version    INTEGER NOT NULL,
-    code       integer ,
+    code       integer PRIMARY KEY,
     name       varchar (50)
+
 );
 
 CREATE TABLE IF NOT EXISTS COUNTRY (
-    id         integer PRIMARY KEY AUTO_INCREMENT,
     version    INTEGER NOT NULL,
-    code       integer ,
-    name       varchar (50)
+    code       integer  PRIMARY KEY,
+    name       varchar (50),
 );
+
+CREATE INDEX IX_USER_DOC_CODE ON USER (DOC_CODE) ;
+CREATE INDEX IX_USER_citizenship_code ON USER (citizenship_code) ;
 
 ALTER TABLE OFFICE ADD FOREIGN KEY (org_id) REFERENCES Organization(id);
 ALTER TABLE USER ADD FOREIGN KEY (OFFICE_ID) REFERENCES OFFICE (ID);
 ALTER TABLE User ADD FOREIGN KEY (doc_code) REFERENCES doc(code);
-ALTER TABLE USER ADD FOREIGN KEY (CITIZENSHIP_CODE) REFERENCES COUNTRY(ID);
+ALTER TABLE USER ADD FOREIGN KEY (citizenship_code) REFERENCES COUNTRY(code);
 
 
 

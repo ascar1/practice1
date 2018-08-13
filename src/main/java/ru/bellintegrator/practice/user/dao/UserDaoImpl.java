@@ -1,8 +1,12 @@
 package ru.bellintegrator.practice.user.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.user.model.User;
+import ru.bellintegrator.practice.user.view.UserView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,6 +20,8 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
     private final EntityManager em;
+    private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
+
     @Autowired
     public UserDaoImpl(EntityManager em){
         this.em = em;
@@ -31,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         return em.find(User.class,id);
     }
     @Override
-    public  List<User> GetFilter(Long officeid, String firstname,String second_name, String middle_name,String position, Integer doc_code , String citizenship_code  ){
+    public  List<User> GetFilter(Long officeid, String firstname,String second_name, String middle_name,String position, Integer doc_code , Integer citizenship_code  ){
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         Root<User>  userRoot = criteriaQuery.from(User.class);
@@ -64,7 +70,7 @@ public class UserDaoImpl implements UserDao {
                     builder.equal(userRoot.get("doc_Code"),doc_code)
             );
         }
-        if (citizenship_code != ""){
+        if (citizenship_code != 0){
             predicates.add(
                     builder.equal(userRoot.get("citizenship_code"),citizenship_code)
             );
@@ -79,8 +85,10 @@ public class UserDaoImpl implements UserDao {
         em.persist(user);
     }
     @Override
-    public void update(User user){
-        em.merge(user);
+    public void update(UserView userView){
+        User user = em.find(User.class,userView.id);
+        user.SetUpdVal(userView);
+
     }
 
 

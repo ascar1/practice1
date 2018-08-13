@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.organization.model.Organization;
+import ru.bellintegrator.practice.organization.view.OrganizationView;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -50,8 +52,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
             em.persist(organization);
     }
     @Override
-    public void update (Organization organization){
-        em.merge(organization);
+    public void update (OrganizationView organizationView){
+        Organization organization = em.find(Organization.class,organizationView.id);
+        organization.SetUpdVal(organizationView);
     }
     private CriteriaQuery<Organization> organizationCriteriaQuery (String name){
         CriteriaBuilder builder = em.getCriteriaBuilder();

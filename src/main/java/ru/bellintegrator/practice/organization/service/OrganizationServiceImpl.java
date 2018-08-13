@@ -71,8 +71,8 @@ public class OrganizationServiceImpl implements  OrganizationService  {
     @Transactional
     public void update (OrganizationView organizationView) throws ExceptionValid{
         updateValidation(organizationView);
-        Organization organization = new Organization( organizationView.id, organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
-        dao.update(organization);
+        //Organization organization = new Organization( organizationView.id, organizationView.name,organizationView.full_name,organizationView.inn,organizationView.kpp,organizationView.address,organizationView.phone,organizationView.is_active);
+        dao.update(organizationView);
     }
 
     private void validation  (String name) throws ExceptionValid {

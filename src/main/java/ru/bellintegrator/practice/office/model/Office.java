@@ -1,6 +1,10 @@
 package ru.bellintegrator.practice.office.model;
 
+import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.user.model.User;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "office")
@@ -41,7 +45,20 @@ public class Office {
     @Column(name= "is_active", nullable = false)
     private Boolean is_active;
 
+    @OneToMany(mappedBy = "office")
+    private List<User> users;
 
+    public void SetUpdVal (OfficeView officeView){
+        if (officeView.name.equals(officeView.name)){
+            this.name = officeView.name;
+        }
+        if (officeView.address.equals( officeView.address)){
+            this.address = officeView.address;
+        }
+        if (officeView.phone.equals(officeView.phone)){
+            this.phone = officeView.phone;
+        }
+    }
     public Long getId() {
         return id;
     }

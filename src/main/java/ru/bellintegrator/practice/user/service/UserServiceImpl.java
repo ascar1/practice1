@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     @Transactional(readOnly = true)
-    public List<UserListView> getFilter(Long office_id, String first_name, String second_name, String middle_name, String position, Integer doc_Code, String citizenship_code) throws ExceptionValid{
+    public List<UserListView> getFilter(Long office_id, String first_name, String second_name, String middle_name, String position, Integer doc_Code, Integer citizenship_code) throws ExceptionValid{
         List<User> Filter = dao.GetFilter(office_id,first_name,second_name,middle_name,position,doc_Code,citizenship_code);
         return Filter.stream()
                 .map(mapListUser())
@@ -55,20 +55,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void update (UserView userView) throws ExceptionValid{
         updateValidation(userView);
-        User user = new User (userView.id,
-                userView.office_id,
-                userView.first_name,
-                userView.second_name,
-                userView.middle_name,
-                userView.position,
-                userView.phone,
-                userView.doc_Code,
-                userView.doc_name,
-                userView.doc_number,
-                userView.doc_date,
-                userView.citizenship_code,
-                userView.is_identified);
-        dao.update(user);
+
+        dao.update(userView);
     }
 
     private void validation  (Integer id) throws ExceptionValid {
@@ -120,6 +108,7 @@ public class UserServiceImpl implements UserService {
             view.second_name = p.getSecond_name();
             view.middle_name = p.getMiddle_name();
             view.phone = p.getPhone();
+            view.doc_name = p.getDoc_name();
             view.is_identified = p.isIs_identified();
             return view;
         };

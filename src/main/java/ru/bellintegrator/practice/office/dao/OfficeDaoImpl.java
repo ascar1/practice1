@@ -4,6 +4,7 @@ package  ru.bellintegrator.practice.office.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.office.model.Office;
+import ru.bellintegrator.practice.office.view.OfficeView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -57,8 +58,10 @@ public class OfficeDaoImpl implements OfficeDao {
         em.persist(office);
     }
     @Override
-    public void update (Office office){
-        em.merge(office);
+    public void update (OfficeView officeView){
+        Office organization = em.find(Office.class,officeView.id);
+        organization.SetUpdVal(officeView);
+
     }
 
 }
