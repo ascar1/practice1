@@ -33,9 +33,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
     @Override
     public Organization loadByID (Long id){
-        CriteriaQuery<Organization> criteriaQuery = filterID(id);
-        TypedQuery<Organization>  query =   em.createQuery(criteriaQuery);
-        return query.getSingleResult();
+        return em.find(Organization.class,id);
     }
     @Override
     public Organization loadByName (String name){

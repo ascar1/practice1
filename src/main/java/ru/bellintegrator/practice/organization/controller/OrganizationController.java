@@ -36,15 +36,12 @@ public class OrganizationController {
 
     @ApiOperation(value = "getOrganization",nickname = "getOrganization",httpMethod = "GET")
     @RequestMapping(value = "/organization", method = RequestMethod.GET)
-    @ResponseBody
-    public OrganizationView metod (@RequestParam("id") String id ){
-            Long _id = new Long(id);
-            return organizationService.getOrganization(_id);
+    public OrganizationView metod (@RequestParam("id") String id ) throws ExceptionValid{
+            return organizationService.getOrganization(id);
     }
 
     @ApiOperation(value = "getAllOrganization",nickname = "getAllOrganization",httpMethod = "GET")
     @RequestMapping(value = "/organization/all", method = RequestMethod.GET)
-    @ResponseBody
     public List<OrganizationView> metodAll () throws ExceptionValid{
         return organizationService.organizaton();
     }

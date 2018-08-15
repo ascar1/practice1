@@ -88,7 +88,6 @@ public class UserDaoImpl implements UserDao {
     public void update(UserView userView){
         User user = em.find(User.class,userView.id);
         user.SetUpdVal(userView);
-
     }
 
 

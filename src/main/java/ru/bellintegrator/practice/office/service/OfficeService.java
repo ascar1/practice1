@@ -19,7 +19,7 @@ public interface OfficeService {
     /*
             выдать организациб по ID
      */
-    Office getByID(Long id);
+    Office getByID(String id) throws ExceptionValid;
     /*
             выдать список по фильтру
      */

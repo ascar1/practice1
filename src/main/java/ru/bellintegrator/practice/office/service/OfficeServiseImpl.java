@@ -1,8 +1,11 @@
 package ru.bellintegrator.practice.office.service;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.error.ExceptionValid;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
 import ru.bellintegrator.practice.office.model.Office;
@@ -26,7 +29,6 @@ public class OfficeServiseImpl implements OfficeService{
 
     }
     @Override
-    @Transactional(readOnly = false)
     public List<OfficeOutListView> office(){
         List<Office> all = dao.all();
 
@@ -36,9 +38,11 @@ public class OfficeServiseImpl implements OfficeService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Office getByID(Long id){
-        Office office = dao.loadByID(id);
+    public Office getByID (String id) throws ExceptionValid{
+
+        validationID(id);
+        Long _id = new Long(id);
+        Office office = dao.loadByID(_id);
         return office;
     }
 
@@ -68,10 +72,26 @@ public class OfficeServiseImpl implements OfficeService{
 
     private void validation (String name ) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (name == "") {
-            exception.addError("Name if empty");
+        if (StringUtils.isEmpty(name)) {
+            exception.addError("Name is empty");
         }
         checAndTrowException(exception);
+    }
+
+    private void validationID (String val) throws ExceptionValid {
+        ExceptionValid exception = new ExceptionValid();
+        if (StringUtils.isEmpty(val)){
+            exception.addError("ID is empty");
+        }
+        if (!NumberUtils.isDigits(val)){
+            exception.addError("ID is not digit");
+        }
+        checAndTrowException(exception);
+    }
+
+
+    private void idValidation (String Id) throws ExceptionValid{
+
     }
 
     private void saveValidation (OfficeView office) throws ExceptionValid{
@@ -79,13 +99,13 @@ public class OfficeServiseImpl implements OfficeService{
         if (office.id == null) {
             exception.addError( "org_id is empty");
         }
-        if (office.name.isEmpty()) {
+        if (StringUtils.isEmpty(office.name)) {
             exception.addError( "name is empty");
         }
-        if (office.address.isEmpty()) {
+        if (StringUtils.isEmpty(office.address)) {
             exception.addError( "address id empty");
         }
-        if (office.is_active == null) {
+        if ( office.is_active == null) {
             exception.addError("is_active is epmty");
         }
         checAndTrowException(exception);
@@ -96,10 +116,10 @@ public class OfficeServiseImpl implements OfficeService{
         if (office.id == null) {
             exception.addError( "org_id is empty");
         }
-        if (office.name.isEmpty()) {
+        if (StringUtils.isEmpty(office.name)) {
             exception.addError( "name is empty");
         }
-        if (office.address.isEmpty()) {
+        if (StringUtils.isEmpty(office.address)) {
             exception.addError( "address id empty");
         }
         if (office.is_active == null) {

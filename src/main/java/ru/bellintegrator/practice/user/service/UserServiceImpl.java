@@ -1,8 +1,10 @@
 package ru.bellintegrator.practice.user.service;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.error.ExceptionValid;
 import ru.bellintegrator.practice.user.dao.UserDao;
 import ru.bellintegrator.practice.user.model.User;
@@ -32,9 +34,10 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     @Transactional(readOnly = true)
-    public User getByID(long id){
-        User user = dao.loadByID(id);
-        return user;
+    public User getByID(String id) throws ExceptionValid{
+        validationID(id);
+        Long _id = new Long(id);
+        return dao.loadByID(_id);
     }
     @Override
     @Transactional(readOnly = true)
@@ -55,7 +58,6 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void update (UserView userView) throws ExceptionValid{
         updateValidation(userView);
-
         dao.update(userView);
     }
 
@@ -66,16 +68,26 @@ public class UserServiceImpl implements UserService {
         }
         checAndTrowException(exception);
     }
+    private void validationID (String val) throws ExceptionValid {
+        ExceptionValid exception = new ExceptionValid();
+        if (StringUtils.isEmpty(val)){
+            exception.addError("ID is empty");
+        }
+        if (!NumberUtils.isDigits(val)){
+            exception.addError("ID is not digit");
+        }
+        checAndTrowException(exception);
+    }
 
     private void saveValidation  (UserView user) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
         if (user.id == null){
             exception.addError("Office_id if empty");
         }
-        if (user.first_name.isEmpty()) {
+        if (StringUtils.isEmpty(user.first_name)) {
             exception.addError("First_name if empty");
         }
-        if (user.position.isEmpty()) {
+        if (StringUtils.isEmpty(user.position)) {
             exception.addError("Position if empty");
         }
         checAndTrowException(exception);
@@ -86,10 +98,10 @@ public class UserServiceImpl implements UserService {
         if (user.id == null){
             exception.addError("ID if empty");
         }
-        if (user.first_name.isEmpty() ) {
+        if (StringUtils.isEmpty(user.first_name) ) {
             exception.addError("First_name if empty");
         }
-        if (user.position.isEmpty()) {
+        if (StringUtils.isEmpty(user.position)) {
             exception.addError("Position if empty");
         }
         checAndTrowException(exception);

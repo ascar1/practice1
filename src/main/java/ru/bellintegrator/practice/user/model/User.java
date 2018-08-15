@@ -97,25 +97,13 @@ public class User {
     private Office office;
 
     public void SetUpdVal (UserView userView){
-        if (!userView.first_name.isEmpty() && !userView.first_name.equals(first_name)){
-            this.first_name = userView.first_name;
-        }
+        this.first_name = userView.first_name;
+        this.second_name = userView.second_name;
+        this.middle_name = userView.middle_name;
+        this.position = userView.position;
+        this.phone = userView.phone;
+        this.doc_code = userView.doc_Code;
 
-        if(!userView.second_name.equals(second_name)){
-            this.second_name = userView.second_name;
-        }
-        if(!userView.middle_name.equals(middle_name)){
-            this.middle_name = userView.middle_name;
-        }
-        if(!userView.position.equals(position)){
-            this.position = userView.position;
-        }
-        if(!userView.phone.equals(phone)){
-            this.phone = userView.phone;
-        }
-        if(!userView.doc_Code.equals(doc_code)){
-            this.doc_code = userView.doc_Code;
-        }
     }
 
     public Long getId() {

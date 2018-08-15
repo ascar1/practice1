@@ -39,7 +39,6 @@ public class UserController {
 
     @ApiOperation(value = "getAllUser",nickname = "getAllUser",httpMethod = "GET")
     @RequestMapping(value = "/user/all", method = RequestMethod.GET)
-    @ResponseBody
     public List<UserView> metodAll ()
     {
         return userService.User();
@@ -47,9 +46,8 @@ public class UserController {
 
     @ApiOperation(value = "getUser",nickname = "getUser",httpMethod = "GET")
     @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public User metod (@RequestParam("id") String id){
-            Long _id = new Long(id);
-            return userService.getByID(_id);
+    public User metod (@RequestParam("id") String id)throws ExceptionValid{
+            return userService.getByID(id);
     }
 
     @ApiOperation(value = "UpdateUser", nickname = "UpdateUser",httpMethod = "POST")

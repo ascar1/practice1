@@ -19,7 +19,7 @@ public interface OrganizationService {
     /*
             выдать организациб по ID
      */
-    OrganizationView getOrganization(Long id);
+    OrganizationView getOrganization(String id) throws ExceptionValid;
     /*
             выдать список по фильтру
      */

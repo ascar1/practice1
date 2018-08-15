@@ -18,11 +18,4 @@ public class ErrorController {
         return ex.errors;
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public List<ErrorResponse> handleExeptionValid (NumberFormatException ex){
-        ExceptionValid exceptionValid = new ExceptionValid();
-        exceptionValid.addError("Ошибка валидации поля ID");
-        return exceptionValid.errors;
-    }
 }

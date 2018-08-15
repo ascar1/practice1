@@ -33,14 +33,12 @@ public class OfficeController {
 
     @ApiOperation(value = "getOffice", nickname = "getOffice",httpMethod = "GET")
     @RequestMapping(value = "/office",method = RequestMethod.GET)
-    public Office metod (@RequestParam("id") String id){
-            Long _id = new Long(id);
-            return officeService.getByID(_id);
+    public Office metod (@RequestParam("id") String id) throws ExceptionValid{
+            return officeService.getByID(id);
     }
 
     @ApiOperation(value = "getAllOoffice",nickname = "getAllOffice",httpMethod = "GET")
     @RequestMapping(value = "/office/all", method = RequestMethod.GET)
-    @ResponseBody
     public List<OfficeOutListView> metodAll ()
     {
         return officeService.office();

@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.office.model;
 
 import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.user.model.User;
 
 import javax.persistence.*;
@@ -34,7 +35,7 @@ public class Office {
     private Long id;
     @Version
     private Integer version;
-    @Column(name = "org_id")
+    @Column(name = "org_id",insertable= false, updatable=false)
     private Long org_id;
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -48,16 +49,15 @@ public class Office {
     @OneToMany(mappedBy = "office")
     private List<User> users;
 
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JoinColumn(name = "org_id")
+    private Organization org;
+
+
     public void SetUpdVal (OfficeView officeView){
-        if (officeView.name.equals(officeView.name)){
-            this.name = officeView.name;
-        }
-        if (officeView.address.equals( officeView.address)){
-            this.address = officeView.address;
-        }
-        if (officeView.phone.equals(officeView.phone)){
-            this.phone = officeView.phone;
-        }
+        this.name = officeView.name;
+        this.address = officeView.address;
+        this.phone = officeView.phone;
     }
     public Long getId() {
         return id;
