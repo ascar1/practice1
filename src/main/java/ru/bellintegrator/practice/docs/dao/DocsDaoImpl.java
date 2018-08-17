@@ -24,6 +24,7 @@ public class DocsDaoImpl implements DocsDao {
 
     @Override
     public Docs loadById (Long id){
+
         return em.find(Docs.class,id);
     }
 

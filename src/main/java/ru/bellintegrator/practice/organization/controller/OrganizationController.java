@@ -55,7 +55,6 @@ public class OrganizationController {
     @ApiOperation(value = "saveOrganization",nickname = "saveOrganization",httpMethod = "POST")
     @PostMapping("/organization/save")
     public SuccessResponse saveOrganization (@RequestBody OrganizationView organizationView) throws ExceptionValid{
-
         organizationService.save(organizationView);
         return new SuccessResponse("success");
     }

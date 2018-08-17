@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -23,6 +24,8 @@ public class OfficeDaoImpl implements OfficeDao {
     public OfficeDaoImpl(EntityManager em){
         this.em = em;
     }
+    @Autowired
+    public OrganizationDao organizationDao;
 
     @Override
     public List<Office> all(){
@@ -30,14 +33,15 @@ public class OfficeDaoImpl implements OfficeDao {
         return query.getResultList();
     }
     @Override
-    public List<Office> getFilter(Long orgid , String name, Boolean is_active){
+    public List<Office> getFilter(Long org_id , String name, Boolean is_active){
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Office>  criteriaQuery = builder.createQuery(Office.class);
         Root<Office> officeRoot = criteriaQuery.from(Office.class);
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(
-                builder.equal(officeRoot.get("org_id"), orgid)
+                builder.equal(officeRoot.get("org"), organizationDao.loadByID(org_id))
+
         );
         if (name != ""){
             predicates.add(

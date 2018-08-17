@@ -268,6 +268,7 @@ $(document).ready(function () {
     $("#UserSave").click(function () {
         console.log('Org save');
         var OrgSave = {
+                office_id:   $("#user_officeId").val(),
                 first_name:  $("#userFirst_name").val(),
                 second_name: $("#userSecond_name").val(),
                 middle_name: $("#userMiddle_name").val(),

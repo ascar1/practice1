@@ -15,14 +15,13 @@ public class Office {
     }
     public Office (Long id, Long org_id, String name, String address, String phone, Boolean is_active){
         this.id = id;
-        this.org_id = org_id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.is_active = is_active;
     }
-    public Office (Long org_id, String name, String address, String phone, Boolean is_active){
-        this.org_id = org_id;
+    public Office (Organization org_id, String name, String address, String phone, Boolean is_active){
+        this.org = org_id;
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -35,8 +34,6 @@ public class Office {
     private Long id;
     @Version
     private Integer version;
-    @Column(name = "org_id",insertable= false, updatable=false)
-    private Long org_id;
     @Column(name = "name", length = 50, nullable = false)
     private String name;
     @Column(name = "address", length = 100, nullable = false)
@@ -48,11 +45,17 @@ public class Office {
 
     @OneToMany(mappedBy = "office")
     private List<User> users;
+    public void setUsers (User user){
+        this.users.add(user);
+        user.setOffice(this);
+    }
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "org_id")
     private Organization org;
-
+    public void setOrg (Organization org){
+        this.org = org;
+    }
 
     public void SetUpdVal (OfficeView officeView){
         this.name = officeView.name;
@@ -62,7 +65,7 @@ public class Office {
     public Long getId() {
         return id;
     }
-    public Long getOrg_id(){return org_id;}
+    public Long getOrg_id(){return this.org.getId();}
     public String getName() {
         return name;
     }

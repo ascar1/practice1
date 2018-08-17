@@ -21,6 +21,10 @@ public class Countries {
 
     @OneToMany(mappedBy = "countries")
     private List<User> user;
+    private void setUser (User user){
+        this.user.add(user);
+        user.setCountries(this);
+    }
 
     public Integer getCode() {
         return code;

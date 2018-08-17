@@ -60,7 +60,12 @@ public class Organization {
     private Boolean is_active;
 
     @OneToMany(mappedBy = "org")
-    private List<Office> organizations;
+    private List<Office> offices;
+
+    public void addOffices (Office office){
+        this.offices.add(office);
+        office.setOrg(this);
+    }
 
     public Long getId() {
         return id;
@@ -68,6 +73,10 @@ public class Organization {
 
     public void setName (String val){
         this.name = val;
+    }
+
+    public void setId (Long id){
+        this.id = id;
     }
 
     public String getName()

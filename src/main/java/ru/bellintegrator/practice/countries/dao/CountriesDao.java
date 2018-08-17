@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CountriesDao {
     List<Countries> all();
-    Countries loadById (Long id);
+    Countries loadById (Integer id);
     void save(Countries countries);
 }

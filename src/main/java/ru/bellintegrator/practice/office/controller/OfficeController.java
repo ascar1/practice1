@@ -53,7 +53,7 @@ public class OfficeController {
     @ApiOperation(value = "saveoffice",nickname = "saveoffice",httpMethod = "POST")
     @PostMapping("/office/save")
     public SuccessResponse saveOrganization (@RequestBody OfficeView officeView, Errors result)throws ExceptionValid{
-
+        log.info(officeView.org_id.toString());
         officeService.save(officeView);
         return new SuccessResponse("success");
     }

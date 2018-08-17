@@ -13,7 +13,7 @@ public class UserView {
     public String middle_name;
     public String position;
     public String phone;
-    public Integer doc_Code;
+    public Long doc_Code;
     public String doc_name;
     public String doc_number;
     public Date doc_date;

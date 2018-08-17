@@ -1,12 +1,13 @@
 package ru.bellintegrator.practice.countries.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.countries.model.Countries;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
-
+@Repository
 public class CountriesDaoImpl implements CountriesDao {
     private final EntityManager em;
 
@@ -22,7 +23,7 @@ public class CountriesDaoImpl implements CountriesDao {
     }
 
     @Override
-    public Countries loadById (Long id){
+    public Countries loadById (Integer id){
         return em.find(Countries.class,id);
     }
 

@@ -1,16 +1,20 @@
 package ru.bellintegrator.practice.office.service;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.error.ExceptionValid;
+import ru.bellintegrator.practice.office.controller.OfficeController;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeOutListView;
 import ru.bellintegrator.practice.office.view.OfficeView;
+import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 
 import java.util.List;
 import java.util.function.Function;
@@ -20,6 +24,10 @@ import java.util.stream.Collectors;
 public class OfficeServiseImpl implements OfficeService{
     private final OfficeDao dao;
 
+    private static Logger log = LoggerFactory.getLogger(OfficeController.class.getName());
+
+    @Autowired
+    private OrganizationDao organizationDao;
     @Autowired
     public OfficeServiseImpl(OfficeDao dao){this.dao = dao;}
 
@@ -59,7 +67,7 @@ public class OfficeServiseImpl implements OfficeService{
     @Transactional
     public void save (OfficeView officeView) throws ExceptionValid {
         saveValidation(officeView);
-        Office office = new Office (officeView.org_id, officeView.name,officeView.address, officeView.phone,officeView.is_active);
+        Office office = new Office (organizationDao.loadByID(officeView.org_id), officeView.name,officeView.address, officeView.phone,officeView.is_active);
         dao.save(office);
     }
 
@@ -96,7 +104,7 @@ public class OfficeServiseImpl implements OfficeService{
 
     private void saveValidation (OfficeView office) throws ExceptionValid{
         ExceptionValid exception = new ExceptionValid();
-        if (office.id == null) {
+        if (office.org_id == null) {
             exception.addError( "org_id is empty");
         }
         if (StringUtils.isEmpty(office.name)) {

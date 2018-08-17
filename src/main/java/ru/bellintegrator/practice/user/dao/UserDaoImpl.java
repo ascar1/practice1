@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.bellintegrator.practice.countries.dao.CountriesDao;
+import ru.bellintegrator.practice.docs.dao.DocsDao;
+import ru.bellintegrator.practice.office.dao.OfficeDao;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.UserView;
@@ -21,7 +24,12 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     private final EntityManager em;
     private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
-
+    @Autowired
+    private OfficeDao officeDao;
+    @Autowired
+    private DocsDao docsDao;
+    @Autowired
+    private CountriesDao countriesDao;
     @Autowired
     public UserDaoImpl(EntityManager em){
         this.em = em;
@@ -37,14 +45,15 @@ public class UserDaoImpl implements UserDao {
         return em.find(User.class,id);
     }
     @Override
-    public  List<User> GetFilter(Long officeid, String firstname,String second_name, String middle_name,String position, Integer doc_code , Integer citizenship_code  ){
+    public  List<User> GetFilter(Long officeid, String firstname,String second_name, String middle_name,String position, Long doc_code , Integer citizenship_code  ){
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         Root<User>  userRoot = criteriaQuery.from(User.class);
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(
-                builder.equal(userRoot.get("office_id"),officeid));
+                builder.equal(userRoot.get("office"),officeDao.loadByID(officeid)));
+
         if (firstname != ""){
             predicates.add(
                     builder.equal(userRoot.get("first_name"),firstname)
@@ -65,14 +74,14 @@ public class UserDaoImpl implements UserDao {
                     builder.equal(userRoot.get("position"),position)
             );
         }
-        if (doc_code != 0){
+        if (doc_code != null){
             predicates.add(
-                    builder.equal(userRoot.get("doc_Code"),doc_code)
+                    builder.equal(userRoot.get("docs"),docsDao.loadById(doc_code))
             );
         }
-        if (citizenship_code != 0){
+        if (citizenship_code != null){
             predicates.add(
-                    builder.equal(userRoot.get("citizenship_code"),citizenship_code)
+                    builder.equal(userRoot.get("countries"),countriesDao.loadById(citizenship_code))
             );
         }
         criteriaQuery.select(userRoot)

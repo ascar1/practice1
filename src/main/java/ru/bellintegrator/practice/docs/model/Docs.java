@@ -12,7 +12,7 @@ public class Docs {
 
     @Id
     @Column(name = "code")
-    private Integer code;
+    private Long code;
 
     @Version
     private Integer version;
@@ -22,8 +22,13 @@ public class Docs {
     @OneToMany(mappedBy = "docs")
     private List<User> user;
 
+    public void setUser(User user){
+        this.user.add(user);
+        user.setDocs(this);
+    }
+
     public String getName(){return name;}
 
-    public Integer getCode() {return code;}
+    public Long getCode() {return code;}
 
 }

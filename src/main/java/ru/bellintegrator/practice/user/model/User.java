@@ -25,31 +25,35 @@ public class User {
 
     public User (Long id , Long office_id, String first_name, String second_name, String middle_name, String position, String phone, Integer doc_Code, String doc_name, String doc_number, Date doc_date, Integer citizenship_code, Boolean is_identified){
         this.id = id;
-        this.office_id = office_id;
+        //this.office_id = office_id;
         this.first_name = first_name;
         this.second_name = second_name;
         this.middle_name = middle_name;
         this.position = position;
         this.phone = phone;
-        this.doc_code = doc_Code;
-        this.doc_name = doc_name;
-        this.doc_number = doc_number;
-        this.doc_date = doc_date;
-        this.citizenship_code = citizenship_code;
-        this.is_identified = is_identified;
-    }
-
-    public User(Long office_id, String first_name,String second_name, String middle_name,String position, String phone, Integer doc_Code, String doc_name, String doc_number, Date doc_date, Integer citizenship_code, Boolean is_identified){
-        this.first_name = first_name;
-        this.second_name = second_name;
-        this.middle_name = middle_name;
-        this.position = position;
-        this.phone = phone;
-        this.doc_code = doc_Code;
+        //this.doc_code = doc_Code;
         this.doc_name = doc_name;
         this.doc_number = doc_number;
         this.doc_date = doc_date;
         //this.citizenship_code = citizenship_code;
+        this.is_identified = is_identified;
+    }
+
+    public User(Office office_id, String first_name,String second_name, String middle_name,String position, String phone, Docs doc_Code, String doc_name, String doc_number, Date doc_date, Countries citizenship_code, Boolean is_identified){
+
+        this.office = office_id;
+        this.docs = doc_Code;
+        this.countries = citizenship_code;
+
+        this.first_name = first_name;
+        this.second_name = second_name;
+        this.middle_name = middle_name;
+        this.position = position;
+        this.phone = phone;
+
+        this.doc_name = doc_name;
+        this.doc_number = doc_number;
+        this.doc_date = doc_date;
         this.is_identified = is_identified;
     }
 
@@ -59,8 +63,6 @@ public class User {
     private Long id;
     @Version
     private Integer Version;
-    @Column(name = "office_id",insertable= false, updatable=false)
-    private Long office_id;
     @Column (name = "first_name", length = 50,nullable = false)
     private String first_name;
     @Column (name = "second_name", length = 50,nullable = false)
@@ -71,8 +73,6 @@ public class User {
     private String position;
     @Column (name = "phone", length = 15,nullable = false)
     private String phone;
-    @Column(name = "doc_code" , nullable = false,insertable= false, updatable=false)
-    private Integer doc_code;
     @Column (name = "doc_name", length = 50,nullable = false)
     private String doc_name;
     @Column (name = "doc_number", length = 15,nullable = false)
@@ -80,21 +80,36 @@ public class User {
     @Column(name = "doc_date" , nullable = false)
     @Temporal(TemporalType.DATE)
     private Date doc_date;
-    @Column (name = "citizenship_code",nullable = false,insertable= false, updatable=false)
-    private Integer citizenship_code;
     @Column(name = "is_identified" , nullable = false)
     private Boolean is_identified;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "doc_code")
-    private Docs docs ;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "citizenship_code")
     private Countries countries;
+    public void setCountries (Countries countries){
+        this.countries = countries;
+    }
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinColumn(name = "office_id")
     private Office office;
+    public void setOffice (Office office){
+        this.office = office;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinColumn(name = "doc_code")
+    private Docs docs ;
+    public void setDocs(Docs docs){
+        this.docs = docs;
+    }
+
+    public Docs getDocs(){
+        return this.docs;
+
+    }
+
 
     public void SetUpdVal (UserView userView){
         this.first_name = userView.first_name;
@@ -102,16 +117,10 @@ public class User {
         this.middle_name = userView.middle_name;
         this.position = userView.position;
         this.phone = userView.phone;
-        this.doc_code = userView.doc_Code;
-
     }
 
     public Long getId() {
         return id;
-    }
-
-    public Long getOffice_id(){
-        return office_id;
     }
 
     public String getPhone() {
@@ -122,16 +131,8 @@ public class User {
         return doc_date;
     }
 
-    public Integer getDoc_Code() {
-        return doc_code;
-    }
-
     public Boolean isIs_identified() {
         return is_identified;
-    }
-
-    public Integer getCitizenship_code() {
-        return citizenship_code;
     }
 
     public String getDoc_name() {

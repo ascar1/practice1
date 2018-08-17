@@ -1,11 +1,20 @@
 package ru.bellintegrator.practice.user.service;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import ru.bellintegrator.practice.countries.dao.CountriesDao;
+import ru.bellintegrator.practice.countries.dao.CountriesDaoImpl;
+import ru.bellintegrator.practice.docs.dao.DocsDao;
+import ru.bellintegrator.practice.docs.dao.DocsDaoImpl;
 import ru.bellintegrator.practice.error.ExceptionValid;
+import ru.bellintegrator.practice.office.dao.OfficeDao;
+import ru.bellintegrator.practice.office.dao.OfficeDaoImpl;
+import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.user.dao.UserDao;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.UserListView;
@@ -18,11 +27,19 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDao dao;
+    private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
+    @Autowired
+    private CountriesDao countriesDao ;
+    @Autowired
+    private DocsDao docsDao ;
+    @Autowired
+    private OfficeDao officeDao;
 
     @Autowired
     public UserServiceImpl (UserDao dao){
         this.dao = dao;
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -41,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     @Transactional(readOnly = true)
-    public List<UserListView> getFilter(Long office_id, String first_name, String second_name, String middle_name, String position, Integer doc_Code, Integer citizenship_code) throws ExceptionValid{
+    public List<UserListView> getFilter(Long office_id, String first_name, String second_name, String middle_name, String position, Long doc_Code, Integer citizenship_code) throws ExceptionValid{
         List<User> Filter = dao.GetFilter(office_id,first_name,second_name,middle_name,position,doc_Code,citizenship_code);
         return Filter.stream()
                 .map(mapListUser())
@@ -51,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void save(UserView userView) throws ExceptionValid {
         saveValidation(userView);
-        User user = new User (userView.office_id, userView.first_name,userView.second_name,userView.middle_name,userView.position,userView.phone,userView.doc_Code,userView.doc_name,userView.doc_number,userView.doc_date,userView.citizenship_code,userView.is_identified);        //userService.save(user);
+        User user = new User (officeDao.loadByID(userView.office_id) , userView.first_name,userView.second_name,userView.middle_name,userView.position,userView.phone, docsDao.loadById(userView.doc_Code) ,userView.doc_name,userView.doc_number,userView.doc_date,countriesDao.loadById(userView.citizenship_code) ,userView.is_identified);
         dao.save(user);
     }
     @Override
@@ -81,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     private void saveValidation  (UserView user) throws ExceptionValid {
         ExceptionValid exception = new ExceptionValid();
-        if (user.id == null){
+        if (user.office_id == null){
             exception.addError("Office_id if empty");
         }
         if (StringUtils.isEmpty(user.first_name)) {
