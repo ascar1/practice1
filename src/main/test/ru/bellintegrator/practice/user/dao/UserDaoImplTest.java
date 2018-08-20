@@ -13,13 +13,11 @@ import ru.bellintegrator.practice.Application;
 import ru.bellintegrator.practice.countries.dao.CountriesDaoImpl;
 import ru.bellintegrator.practice.docs.dao.DocsDaoImpl;
 import ru.bellintegrator.practice.office.dao.OfficeDaoImpl;
-import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.view.UserView;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @WebAppConfiguration(value = "src/main/resources")
@@ -29,17 +27,17 @@ public class UserDaoImplTest {
     @Autowired
     UserDaoImpl userDao;
     @Autowired
-    public CountriesDaoImpl countriesDao ;
+    private CountriesDaoImpl countriesDao ;
     @Autowired
-    public DocsDaoImpl docsDao ;
+    private DocsDaoImpl docsDao ;
     @Autowired
-    public OfficeDaoImpl officeDao;
+    private OfficeDaoImpl officeDao;
 
     @Test
     public void save() {
-        User user = new User (officeDao.loadByID(new Long(1)) , "first_name","second_name","middle_name","position","+7495123456", docsDao.loadById(new Long (10)) ,"doc_name","doc_number",new Date(1,1,2017),countriesDao.loadById(643) ,true);
+        User user = new User (officeDao.loadById(new Long(1)) , "first_name","second_name","middle_name","position","+7495123456", docsDao.loadById(new Long (10)) ,"doc_name","doc_number",new Date(1,1,2017),countriesDao.loadById(643) ,true);
         userDao.save(user);
-        Assert.assertNotNull(userDao.GetFilter(new Long(1),"first_name","second_name","position","position",null,null));
+        Assert.assertNotNull(userDao.getFilter(new Long(1),"first_name","second_name","position","position",null,null));
     }
 
     @Test
@@ -48,7 +46,7 @@ public class UserDaoImplTest {
         userView.id = new Long(1);
         userView.first_name = "new name";
         userDao.update(userView);
-        if (!userView.equals(userDao.loadByID(new Long(1)))){
+        if (!userView.equals(userDao.loadById(new Long(1)))){
             Assert.assertFalse(false);
         }
     }

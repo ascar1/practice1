@@ -3,22 +3,20 @@ package ru.bellintegrator.practice.office.dao;
 /*
         DAO для работы с Organization
  */
-
+import java.util.List;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeView;
 
-import java.util.List;
-
 public interface OfficeDao {
 
-    List<Office> all();
+  List<Office> all();
 
-    Office loadByID (long id);
+  Office loadById(Long id);
 
-    List<Office> getFilter(Long orgId, String name , Boolean is_active);
+  List<Office> getFilter(Long orgId, String name, Boolean isActive);
 
-    void save(Office organization);
+  void save(Office organization);
 
-    void update (OfficeView organization);
+  void update(OfficeView organization);
 
 }

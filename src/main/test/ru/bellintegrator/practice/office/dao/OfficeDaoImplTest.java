@@ -13,11 +13,6 @@ import ru.bellintegrator.practice.Application;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.organization.dao.OrganizationDaoImpl;
-import ru.bellintegrator.practice.organization.model.Organization;
-
-import java.awt.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
@@ -26,12 +21,12 @@ import static org.junit.Assert.*;
 @DirtiesContext
 public class OfficeDaoImplTest {
     @Autowired
-    OfficeDaoImpl officeDao;
+    private OfficeDaoImpl officeDao;
     @Autowired
-    OrganizationDaoImpl organizationDao;
+    private OrganizationDaoImpl organizationDao;
     @Test
     public void save() {
-        Office office = new Office( organizationDao.loadByID(new Long(1)),"Office New" , "Russia" , "+7495123456", true);
+        Office office = new Office( organizationDao.loadById(new Long(1)),"Office New" , "Russia" , "+7495123456", true);
         officeDao.save(office);
         Assert.assertNotNull(officeDao.getFilter(new Long(1),"Office New", true));
     }
@@ -48,7 +43,7 @@ public class OfficeDaoImplTest {
         officeView.is_active = true;
         officeDao.update(officeView);
 
-        Office organizationView_ = officeDao.loadByID(new Long(1));
+        Office organizationView_ = officeDao.loadById(new Long(1));
         if (!officeView.equals(organizationView_)){
             Assert.assertFalse(false);
         }

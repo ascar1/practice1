@@ -9,15 +9,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.bellintegrator.practice.Application;
 import ru.bellintegrator.practice.organization.model.Organization;
-import ru.bellintegrator.practice.organization.view.OrganizationListView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
@@ -47,7 +43,7 @@ public class OrganizationDaoImplTest {
         organizationView.is_active = true;
         organizationDao.update(organizationView);
 
-        Organization organizationView_ = organizationDao.loadByID(new Long(1));
+        Organization organizationView_ = organizationDao.loadById(new Long(1));
         if (!organizationView.equals(organizationView_)){
             Assert.assertFalse(false);
         }
