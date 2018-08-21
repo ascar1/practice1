@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @DirtiesContext
 */
 @RunWith(SpringRunner.class)
-//@WebMvcTest(OfficeController.class)
 @SpringBootTest(classes = {Application.class})
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
