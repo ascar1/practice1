@@ -21,16 +21,13 @@ import ru.bellintegrator.practice.organization.controller.OrganizationController
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-/*
+
 @RunWith(SpringRunner.class)
-@WebMvcTest(OrganizationController.class)
+//@WebMvcTest(OrganizationController.class)
 @WebAppConfiguration(value = "src/main/resources")
 @SpringBootTest(classes = {Application.class})
 @EnableWebMvc
 @DirtiesContext
-*/
-@RunWith(SpringRunner.class)
-@WebMvcTest(OfficeController.class)
 public class OfficeControllerTest {
 
   @Autowired

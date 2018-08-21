@@ -14,8 +14,6 @@ import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.organization.dao.OrganizationDaoImpl;
 
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @WebAppConfiguration(value = "src/main/resources")
