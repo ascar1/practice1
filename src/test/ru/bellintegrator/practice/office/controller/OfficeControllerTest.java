@@ -30,10 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @DirtiesContext
 */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class})
-@WebAppConfiguration(value = "src/main/resources")
-@Transactional
-@DirtiesContext
+@WebMvcTest(OfficeController.class)
 public class OfficeControllerTest {
 
   @Autowired

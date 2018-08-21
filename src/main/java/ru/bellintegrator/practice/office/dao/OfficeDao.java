@@ -15,8 +15,8 @@ public interface OfficeDao {
 
   List<Office> getFilter(Long orgId, String name, Boolean isActive);
 
-  void save(Office organization);
+  void save(Office office);
 
-  void update(OfficeView organization);
+  void update(OfficeView officeView);
 
 }

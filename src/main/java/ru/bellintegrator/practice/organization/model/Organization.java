@@ -90,10 +90,6 @@ public class Organization {
     this.name = val;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
   }
