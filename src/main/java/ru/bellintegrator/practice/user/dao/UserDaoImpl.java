@@ -25,16 +25,15 @@ import ru.bellintegrator.practice.user.view.UserView;
 public class UserDaoImpl implements UserDao {
   private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
   private final EntityManager em;
-  @Autowired
-  private OfficeDao officeDao;
-  @Autowired
-  private DocsDao docsDao;
-  @Autowired
-  private CountriesDao countriesDao;
+  private final OfficeDao officeDao;
+  private final DocsDao docsDao;
+  private final CountriesDao countriesDao;
 
-  @Autowired
-  public UserDaoImpl(EntityManager em) {
+  public UserDaoImpl(EntityManager em,OfficeDao officeDao,DocsDao docsDao, CountriesDao countriesDao) {
     this.em = em;
+    this.officeDao = officeDao;
+    this.docsDao =docsDao;
+    this.countriesDao = countriesDao;
   }
 
   @Override

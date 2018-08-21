@@ -65,9 +65,8 @@ public class OfficeDaoImpl implements OfficeDao {
 
   @Override
   public void update(OfficeView officeView) {
-    Office organization = em.find(Office.class, officeView.id);
-    organization.setUpdVal(officeView);
-
+    Office office = em.find(Office.class, officeView.id);
+    office.setUpdVal(officeView);
   }
 
 }

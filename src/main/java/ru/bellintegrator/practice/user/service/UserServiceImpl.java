@@ -25,16 +25,15 @@ import ru.bellintegrator.practice.user.view.UserView;
 public class UserServiceImpl implements UserService {
   private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
   private final UserDao dao;
-  @Autowired
-  private CountriesDao countriesDao;
-  @Autowired
-  private DocsDao docsDao;
-  @Autowired
-  private OfficeDao officeDao;
+  private final CountriesDao countriesDao;
+  private final DocsDao docsDao;
+  private final OfficeDao officeDao;
 
-  @Autowired
-  public UserServiceImpl(UserDao dao) {
+  public UserServiceImpl(UserDao dao, CountriesDao countriesDao, UserDao userDao, DocsDao docsDao, OfficeDao officeDao) {
     this.dao = dao;
+    this.countriesDao = countriesDao;
+    this.docsDao = docsDao;
+    this.officeDao = officeDao;
   }
 
 
