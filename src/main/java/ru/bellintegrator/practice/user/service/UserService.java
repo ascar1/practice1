@@ -10,7 +10,7 @@ import ru.bellintegrator.practice.user.view.UserView;
 public interface UserService {
   List<UserView> user();
 
-  User getById(String id) throws ExceptionValid;
+  UserView getById(String id) throws ExceptionValid;
 
   List<UserListView> getFilter(Long officeId,
                                String firstName,

@@ -22,7 +22,7 @@ import java.util.List;
 @DirtiesContext
 public class OrganizationDaoImplTest {
     @Autowired
-    OrganizationDaoImpl organizationDao;
+    private OrganizationDaoImpl organizationDao;
     @Test
     public void save() {
         Organization organization = new Organization("name","full_name","12345678","123456","Ufa Repablic Bashkortostan","+7927123456",true);
@@ -34,7 +34,7 @@ public class OrganizationDaoImplTest {
     @Test
     public void update() {
         OrganizationView organizationView = new OrganizationView();
-        organizationView.id = new Long (1);
+        organizationView.id = 1L;
         organizationView.name = "name";
         organizationView.full_name = "full_name";
         organizationView.inn = "12345678";
@@ -43,7 +43,7 @@ public class OrganizationDaoImplTest {
         organizationView.is_active = true;
         organizationDao.update(organizationView);
 
-        Organization organizationView_ = organizationDao.loadById(new Long(1));
+        Organization organizationView_ = organizationDao.loadById(1L);
         if (!organizationView.equals(organizationView_)){
             Assert.assertFalse(false);
         }

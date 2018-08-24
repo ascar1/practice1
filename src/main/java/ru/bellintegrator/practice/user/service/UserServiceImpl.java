@@ -29,13 +29,16 @@ public class UserServiceImpl implements UserService {
   private final DocsDao docsDao;
   private final OfficeDao officeDao;
 
-  public UserServiceImpl(UserDao dao, CountriesDao countriesDao, UserDao userDao, DocsDao docsDao, OfficeDao officeDao) {
+  public UserServiceImpl(UserDao dao,
+                         CountriesDao countriesDao,
+                         UserDao userDao,
+                         DocsDao docsDao,
+                         OfficeDao officeDao) {
     this.dao = dao;
     this.countriesDao = countriesDao;
     this.docsDao = docsDao;
     this.officeDao = officeDao;
   }
-
 
   @Override
   @Transactional(readOnly = true)
@@ -48,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional(readOnly = true)
-  public User getById(String id) throws ExceptionValid {
+  public UserView getById(String id) throws ExceptionValid {
     validationId(id);
     return dao.loadById(new Long(id));
   }

@@ -25,7 +25,7 @@ import java.util.Date;
 @DirtiesContext
 public class UserDaoImplTest {
     @Autowired
-    UserDaoImpl userDao;
+    private UserDaoImpl userDao;
     @Autowired
     private CountriesDaoImpl countriesDao ;
     @Autowired
@@ -35,18 +35,18 @@ public class UserDaoImplTest {
 
     @Test
     public void save() {
-        User user = new User (officeDao.loadById(new Long(1)) , "first_name","second_name","middle_name","position","+7495123456", docsDao.loadById(new Long (10)) ,"doc_name","doc_number",new Date(1,1,2017),countriesDao.loadById(643) ,true);
+        User user = new User (officeDao.loadById(1L) , "first_name","second_name","middle_name","position","+7495123456", docsDao.loadById(10L) ,"doc_name","doc_number",new Date(1,1,2017),countriesDao.loadById(643) ,true);
         userDao.save(user);
-        Assert.assertNotNull(userDao.getFilter(new Long(1),"first_name","second_name","position","position",null,null));
+        Assert.assertNotNull(userDao.getFilter(1L,"first_name","second_name","position","position",null,null));
     }
 
     @Test
     public void update() {
         UserView userView = new UserView();
-        userView.id = new Long(1);
+        userView.id = 1L;
         userView.first_name = "new name";
         userDao.update(userView);
-        if (!userView.equals(userDao.loadById(new Long(1)))){
+        if (!userView.equals(userDao.loadById(1L))){
             Assert.assertFalse(false);
         }
     }

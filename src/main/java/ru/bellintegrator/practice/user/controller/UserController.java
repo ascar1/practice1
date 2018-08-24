@@ -48,7 +48,7 @@ public class UserController {
 
   @ApiOperation(value = "getUser", nickname = "getUser", httpMethod = "GET")
   @RequestMapping(value = "/user", method = RequestMethod.GET)
-  public User metod(@RequestParam("id") String id) throws ExceptionValid {
+  public UserView metod(@RequestParam("id") String id) throws ExceptionValid {
     return userService.getById(id);
   }
 

@@ -1,7 +1,5 @@
 package ru.bellintegrator.practice.user.model;
 
-import java.util.Date;
-import javax.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.bellintegrator.practice.countries.model.Countries;
@@ -10,29 +8,67 @@ import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.user.view.UserView;
 
+import javax.persistence.*;
+import java.util.Date;
+
 @Entity
 @Table(name = "user")
 public class User {
   private static Logger log = LoggerFactory.getLogger(OrganizationDao.class.getName());
+  @Id
+  @GeneratedValue
+  @Column(name = "id")
+  private Long id;
+  @Version
+  private Integer Version;
+  @Column(name = "first_name", length = 50, nullable = false)
+  private String first_name;
+  @Column(name = "second_name", length = 50, nullable = false)
+  private String second_name;
+  @Column(name = "middle_name", length = 50, nullable = false)
+  private String middle_name;
+  @Column(name = "position", length = 30, nullable = false)
+  private String position;
+  @Column(name = "phone", length = 15, nullable = false)
+  private String phone;
+  @Column(name = "doc_name", length = 50, nullable = false)
+  private String doc_name;
+  @Column(name = "doc_number", length = 15, nullable = false)
+  private String doc_number;
+  @Column(name = "doc_date", nullable = false)
+  @Temporal(TemporalType.DATE)
+  private Date doc_date;
+  @Column(name = "is_identified", nullable = false)
+  private Boolean is_identified;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "citizenship_code")
+  private Countries countries;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "office_id")
+  private Office office;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "doc_code")
+  private Docs docs;
+
 
   public User() {
 
   }
 
   /**
-   * @param id id
-   * @param officeId officeId
-   * @param firstName firstName
-   * @param secondName secondName
-   * @param middleName middleName
-   * @param position position
-   * @param phone phone
-   * @param docCode docCode
-   * @param docName docName
-   * @param docNumber docNumber
-   * @param docDate docDate
+   * @param id              id
+   * @param officeId        officeId
+   * @param firstName       firstName
+   * @param secondName      secondName
+   * @param middleName      middleName
+   * @param position        position
+   * @param phone           phone
+   * @param docCode         docCode
+   * @param docName         docName
+   * @param docNumber       docNumber
+   * @param docDate         docDate
    * @param citizenshipCode citizenshipCode
-   * @param isIdentified isIdentified
+   * @param isIdentified    isIdentified
    */
   public User(Long id,
               Long officeId,
@@ -60,18 +96,18 @@ public class User {
   }
 
   /**
-   * @param officeId officeId
-   * @param firstName firstName
-   * @param secondName secondName
-   * @param middleName middleName
-   * @param position position
-   * @param phone phone
-   * @param docCode docCode
-   * @param docName docName
-   * @param docNumber docNumber
-   * @param docDate docDate
+   * @param officeId        officeId
+   * @param firstName       firstName
+   * @param secondName      secondName
+   * @param middleName      middleName
+   * @param position        position
+   * @param phone           phone
+   * @param docCode         docCode
+   * @param docName         docName
+   * @param docNumber       docNumber
+   * @param docDate         docDate
    * @param citizenshipCode citizenshipCode
-   * @param isIdentified isIdentified
+   * @param isIdentified    isIdentified
    */
   public User(Office officeId,
               String firstName,
@@ -99,59 +135,16 @@ public class User {
     this.is_identified = isIdentified;
   }
 
-  @Id
-  @GeneratedValue
-  @Column(name = "id")
-  private Long id;
-  @Version
-  private Integer Version;
-  @Column(name = "first_name", length = 50, nullable = false)
-  private String first_name;
-  @Column(name = "second_name", length = 50, nullable = false)
-  private String second_name;
-  @Column(name = "middle_name", length = 50, nullable = false)
-  private String middle_name;
-  @Column(name = "position", length = 30, nullable = false)
-  private String position;
-  @Column(name = "phone", length = 15, nullable = false)
-  private String phone;
-  @Column(name = "doc_name", length = 50, nullable = false)
-  private String doc_name;
-  @Column(name = "doc_number", length = 15, nullable = false)
-  private String doc_number;
-  @Column(name = "doc_date", nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date doc_date;
-  @Column(name = "is_identified", nullable = false)
-  private Boolean is_identified;
-
-
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-  @JoinColumn(name = "citizenship_code")
-  private Countries countries;
-
-  public void setCountries(Countries countries) {
-    this.countries = countries;
-  }
-
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-  @JoinColumn(name = "office_id")
-  private Office office;
-
   public void setOffice(Office office) {
     this.office = office;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-  @JoinColumn(name = "doc_code")
-  private Docs docs;
+  public Docs getDocs() {
+    return this.docs;
+  }
 
   public void setDocs(Docs docs) {
     this.docs = docs;
-  }
-
-  public Docs getDocs() {
-    return this.docs;
   }
 
   public void setUpdVal(UserView userView) {
@@ -205,5 +198,15 @@ public class User {
   @Override
   public String toString() {
     return super.toString();
+  }
+
+  public Long getOfficeID() { return office.getOrg_id();}
+
+  public Integer getCountries() {
+    return countries.getCode();
+  }
+
+  public void setCountries(Countries countries) {
+    this.countries = countries;
   }
 }

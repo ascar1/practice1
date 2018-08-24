@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
   public UserDaoImpl(EntityManager em,OfficeDao officeDao,DocsDao docsDao, CountriesDao countriesDao) {
     this.em = em;
     this.officeDao = officeDao;
-    this.docsDao =docsDao;
+    this.docsDao = docsDao;
     this.countriesDao = countriesDao;
   }
 
@@ -43,8 +43,8 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public User loadById(Long id) {
-    return em.find(User.class, id);
+  public UserView loadById(Long id) {
+    return new UserView(em.find(User.class, id));
   }
 
   @Override

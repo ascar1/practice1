@@ -1,7 +1,7 @@
 package ru.bellintegrator.practice.organization.view;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.NotNull;
+
 import ru.bellintegrator.practice.organization.model.Organization;
 
 public class OrganizationView {
@@ -20,9 +20,26 @@ public class OrganizationView {
     this.is_active = organization.isIs_active();
   }
 
+  public OrganizationView(Long id,
+                          String name,
+                          String fullName,
+                          String inn,
+                          String kpp,
+                          String address,
+                          String phone,
+                          boolean isActive) {
+    this.id = id;
+    this.name = name;
+    this.full_name = fullName;
+    this.inn = inn;
+    this.kpp = kpp;
+    this.address = address;
+    this.phone = phone;
+    this.is_active = isActive;
+  }
+
   @ApiModelProperty(hidden = true)
   public Long id;
-  @NotNull
   public String name;
   public String full_name;
   public String inn;

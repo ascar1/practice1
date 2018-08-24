@@ -1,102 +1,65 @@
 package ru.bellintegrator.practice.organization.controller;
 
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import ru.bellintegrator.practice.Application;
-import ru.bellintegrator.practice.organization.dao.OrganizationDao;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrganizationController.class)
-@WebAppConfiguration(value = "src/main/resources")
-@SpringBootTest(classes = {Application.class})
-@EnableWebMvc
-@DirtiesContext
 public class OrganizationControllerTest {
   @Autowired
   private MockMvc mockMvc;
   @MockBean
-  private OrganizationService service;
+  private OrganizationService organizationService;
+
+  private List<OrganizationView> getTestData (){
+    List<OrganizationView> list = new ArrayList<OrganizationView>();
+    list.add(new OrganizationView(1L,"name_1","Full_name_1","Inn_1","kpp_1","address_1","phone_1",true));
+    list.add(new OrganizationView(2L,"name_2","Full_name_2","inn_2","kpp_2","address_2","phone_2",false));
+    return list;
+  }
+  private OrganizationView getTestOrganizationView(){
+    return new OrganizationView(1L,"name_1","Full_name_1","Inn_1","kpp_1","address_1","phone_1",true);
+  }
 
   @Test
   public void metod() throws Exception {
-    OrganizationView organization = new OrganizationView();
-    when(service.getOrganization("1")).thenReturn(organization);
-    this.mockMvc.perform(get("/organization/?id=1ы").contentType(MediaType.APPLICATION_JSON_UTF8))
-            //.andExpect(content().contentType(contentType))
+    when(organizationService.getOrganization("1")).thenReturn(getTestOrganizationView());
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/organization/?id=1"))
             .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
             .andDo(print());
-
-    //.andExpect(jsonPath("$", hasSize(1)))
-    //.andExpect(jsonPath("$[0].id",is(1)))
-    //.andReturn().getResponse().getContentAsString();
-    //.andExpect(jsonPath("$.name",is("Рога и копыта")));
-
-        /*this.mockMvc.perform(get("/organization/?id=1s"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0].id",is(1)));*/
-
   }
-
 
   @Test
   public void metodAll() throws Exception {
-    this.mockMvc.perform(get("/organization/all"))
-            //.accept(contentType)
+    when(organizationService.organizaton()).thenReturn(getTestData());
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/organization/all"))
             .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id", Matchers.is(1)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[1].id", Matchers.is(2)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$",Matchers.hasSize(2)))
             .andDo(print());
-    //.andExpect(content().contentType(contentType));
-    // .andExpect(jsonPath("$",hasSize(2)));
-    //.andExpect(jsonPath("$[0].id",is(1)));
-
-
-                /*.andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.id",is(1)));*/
-
-    //.andExpect(jsonPath("$.id",is(1)));
   }
 }
-
-    /*@Autowired
-    WebApplicationContext webAppContext;
-    @Mock
-    private OrganizationService organizationService;
-    @InjectMocks
-    private OrganizationController controller;
-
-    @Resource
-    private WebApplicationContext webApplicationContext;
-
-    MockMvc mockMvc;
-
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
-
-    @Before
-    public void setup(){
-        //MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(controller)
-                .build();
-    }
-*/

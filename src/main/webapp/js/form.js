@@ -8,10 +8,27 @@ $(document).ready(function () {
             dataType:"text",
             success: function(result){
                 console.log(result);
+                console.log("asd")
+                console.log(result.type);
                 alert(result);
             }
         });
     });
+
+        $("#orgping").click(function () {
+            $.ajax({
+                url:"/organization/ping",
+                type:"GET",
+                contentType:"application/json; charset=utf-8",
+                dataType:"text",
+                success: function(result){
+                    console.log(result);
+                    console.log("asd")
+                    console.log(result.type);
+                    alert(result);
+                }
+            });
+        });
 
     $("#orgFilter").click(function () {
             console.log('id');

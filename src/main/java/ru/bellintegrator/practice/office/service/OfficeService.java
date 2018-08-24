@@ -11,11 +11,6 @@ import ru.bellintegrator.practice.office.view.OfficeView;
 
 public interface OfficeService {
   /*
-          добавить организацию
-  */
-  void add(OfficeView organization);
-
-  /*
           получить список
   */
   List<OfficeOutListView> office();
@@ -23,7 +18,7 @@ public interface OfficeService {
   /*
             выдать организациб по ID
   */
-  Office getById(String id) throws ExceptionValid;
+  OfficeView getById(String id) throws ExceptionValid;
 
   /*
           выдать список по фильтру

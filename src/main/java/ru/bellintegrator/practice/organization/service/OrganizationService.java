@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.organization.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import ru.bellintegrator.practice.error.ExceptionValid;
 import ru.bellintegrator.practice.organization.view.OrganizationListView;
@@ -37,4 +38,5 @@ public interface OrganizationService {
       Обновить организвцию
    */
   void update(OrganizationView organizationView) throws ExceptionValid;
+
 }

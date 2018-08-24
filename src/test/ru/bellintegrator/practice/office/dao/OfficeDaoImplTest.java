@@ -26,25 +26,25 @@ public class OfficeDaoImplTest {
     private OrganizationDaoImpl organizationDao;
     @Test
     public void save() {
-        Office office = new Office( organizationDao.loadById(new Long(1)),"Office New" , "Russia" , "+7495123456", true);
+        Office office = new Office( organizationDao.loadById(1L),"Office New" , "Russia" , "+7495123456", true);
         officeDao.save(office);
-        Assert.assertNotNull(officeDao.getFilter(new Long(1),"Office New", true));
+        Assert.assertNotNull(officeDao.getFilter(1L,"Office New", true));
     }
 
     @Test
     public void update() {
         //Office office = new Office(new Long(1),new Long(1),,true);
         OfficeView officeView = new OfficeView();
-        officeView.id = new Long(1);
-        officeView.org_id = new Long(1);
+        officeView.id = 1L;
+        officeView.org_id = 1L;
         officeView.name = "New Name";
         officeView.address = "new adr" ;
         officeView.phone = "+78123456";
         officeView.is_active = true;
         officeDao.update(officeView);
 
-        Office organizationView_ = officeDao.loadById(new Long(1));
-        if (!officeView.equals(organizationView_)){
+        Office organizationView_ = officeDao.loadById(1L);
+        if (!organizationView_.equals(officeView)){
             Assert.assertFalse(false);
         }
     }

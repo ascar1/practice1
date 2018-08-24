@@ -9,7 +9,7 @@ import ru.bellintegrator.practice.user.view.UserView;
 public interface UserDao {
   List<User> all();
 
-  User loadById(Long id);
+  UserView loadById(Long id);
 
   List<User> getFilter(Long officeid,
                        String firstname,

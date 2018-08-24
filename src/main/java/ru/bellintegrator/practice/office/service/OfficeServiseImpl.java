@@ -31,12 +31,6 @@ public class OfficeServiseImpl implements OfficeService {
   }
 
   @Override
-  @Transactional
-  public void add(OfficeView officeView) {
-
-  }
-
-  @Override
   public List<OfficeOutListView> office() {
     List<Office> all = dao.all();
 
@@ -46,9 +40,9 @@ public class OfficeServiseImpl implements OfficeService {
   }
 
   @Override
-  public Office getById(String id) throws ExceptionValid {
+  public OfficeView getById(String id) throws ExceptionValid {
     validationId(id);
-    return dao.loadById(new Long(id));
+    return new OfficeView(dao.loadById(new Long(id)));
   }
 
   @Override
